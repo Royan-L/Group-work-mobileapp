@@ -1,23 +1,24 @@
 # Project Plan
 
-Lesson 7 Practical — Authentication & Intents in Tenant Management App using Android XML, ConstraintLayout, View Binding, Data Binding, and Activities.
+Lab 6 Navigation Practical 2 — Lifecycle, State Preservation, Fragments, Navigation Graph & Safe Args using Android XML, Fragments, and Navigation Component.
 
 ## Project Brief
 
-# Project Brief: Tenant Management App (MVP)
+# Project Brief: Lab 6 Navigation Practical 2
 
 ## Features
-1. **User Authentication**: Login and registration flows using Android Activities to securely authenticate users.
-2. **Tenant Directory & Details View**: Display tenant information in structured layouts using Data Binding to link tenant data directly to UI components.
-3. **Intent-Based Communication**: Trigger implicit Android Intents for tenant contact actions such as phone calls, SMS messaging, and emailing.
-4. **Screen Navigation**: Use explicit Intents to seamlessly navigate between app screens (Auth, Dashboard, Tenant Profile).
+- **Multi-Fragment Navigation Flow**: Seamless navigation between app screens (e.g., Welcome, Main Content/Quiz, and Result screens) managed via an Android Navigation Graph.
+- **Type-Safe Data Passing (Safe Args)**: Strongly-typed argument passing between fragment destinations using the Navigation Safe Args plugin.
+- **Lifecycle Awareness & State Preservation**: Preservation of UI and application state across configuration changes (e.g., device rotation) and screen lifecycle transitions using ViewModel and SavedStateHandle.
+- **Interactive XML Layouts**: Responsive user interfaces constructed with ConstraintLayout and driven by View Binding and Data Binding for clean UI-logic separation.
 
 ## High-Level Tech Stack
 - **Language**: Kotlin
-- **UI Architecture & Layouts**: Android XML Layouts, ConstraintLayout
-- **Data & View Binding**: View Binding and Data Binding
-- **Core Architecture**: Android Activities, Kotlin Coroutines, LiveData / ViewModel
-- **Navigation & System Integration**: Explicit Intents (Activity-to-Activity navigation) and Implicit Intents (Phone, Email, SMS)
+- **UI & Layouts**: Android XML Layouts, `ConstraintLayout`, Fragments, Single-Activity pattern (`MainActivity`)
+- **UI Binding**: View Binding & Data Binding
+- **Navigation**: Jetpack Navigation Component (`androidx.navigation`) with Safe Args
+- **Lifecycle & State Management**: Android Lifecycle, `ViewModel`, `SavedStateHandle`
+- **Concurrency**: Kotlin Coroutines
 
 ## Implementation Steps
 **Total Duration:** 73h 16m 55s
@@ -82,4 +83,23 @@ Lesson 7 Practical — Authentication & Intents in Tenant Management App using A
   - build pass
   - make sure all existing tests pass
 - **Duration:** 15m 48s
+
+### Task_7_ImplementLab6NavLifecycleState: Implement Lab 6 features: 1) Add TENANT_LIFECYCLE logging across MainActivity, LoginActivity, RegisterActivity. 2) Preserve/restore state in MainActivity (name, phone, rent, save_count). 3) Add Navigation Component and Safe Args setup in gradle files. 4) Make Tenant Serializable and create TenantRepository. 5) Create DashboardFragment, AddTenantFragment, ViewTenantsFragment with XML layouts. 6) Create nav_graph.xml with destinations, actions, and newTenant argument, host in MainActivity.
+- **Status:** IN_PROGRESS
+- **Acceptance Criteria:**
+  - TENANT_LIFECYCLE log tag added to lifecycle methods of MainActivity, LoginActivity, RegisterActivity
+  - onSaveInstanceState and onCreate state preservation implemented in MainActivity
+  - Navigation dependencies and Safe Args plugin configured in build.gradle.kts
+  - Tenant is Serializable and TenantRepository object manages tenants list, addTenant(), and totalRent()
+  - DashboardFragment, AddTenantFragment, ViewTenantsFragment created with layouts and nav_graph.xml routing
+  - build pass
+- **StartTime:** 2026-10-20 20:31:35 EAT
+
+### Task_8_RunAndVerify: Run and verify Lab 6 Navigation Practical 2 features including lifecycle logging, rotation state preservation, navigation graph with Safe Args between fragments, and tenant management via TenantRepository. Instruct critic_agent to verify application stability (no crashes) and confirm user requirements.
+- **Status:** PENDING
+- **Acceptance Criteria:**
+  - app does not crash
+  - build pass
+  - make sure all existing tests pass
+  - all features verified
 

@@ -10,6 +10,13 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "androidx.navigation.safeargs" || requested.id.id == "androidx.navigation.safeargs.kotlin") {
+                useModule("androidx.navigation:navigation-safe-args-gradle-plugin:${requested.version}")
+            }
+        }
+    }
 }
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"

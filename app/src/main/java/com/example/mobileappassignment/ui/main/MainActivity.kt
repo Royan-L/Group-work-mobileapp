@@ -1,8 +1,11 @@
-package com.example.mobileappassignment
+package com.example.mobileappassignment.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -11,12 +14,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.mobileappassignment.R
 import com.example.mobileappassignment.databinding.ActivityMainBinding
+import com.example.mobileappassignment.ui.auth.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var lastTenant: Tenant? = null
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,36 +51,16 @@ class MainActivity : AppCompatActivity() {
         if (emailTextView != null && !email.isNullOrEmpty()) {
             emailTextView.text = email
         }
+    }
 
-        binding.saveButton.setOnClickListener {
-            val name = binding.tenantNameEditText.text.toString().trim()
-            val phone = binding.phoneEditText.text.toString().trim()
-            val rent = binding.rentEditText.text.toString().trim()
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
 
-            var hasError = false
-            if (name.isEmpty()) {
-                binding.tenantNameEditText.error = "Required"
-                hasError = true
-            }
-            if (phone.isEmpty()) {
-                binding.phoneEditText.error = "Required"
-                hasError = true
-            }
-            if (rent.isEmpty()) {
-                binding.rentEditText.error = "Required"
-                hasError = true
-            }
-
-            if (hasError) return@setOnClickListener
-
-            val tenant = Tenant(name, phone, rent)
-            binding.tenant = tenant
-            lastTenant = tenant
-
-            binding.tenantNameEditText.text?.clear()
-            binding.phoneEditText.text?.clear()
-            binding.rentEditText.text?.clear()
-        }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_logout) {
@@ -87,45 +73,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // — LIFECYCLE LOGS —
-    override fun onStart() {
-        super.onStart()
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onRestart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onDestroy")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("tenant_name", lastTenant?.name ?: binding.tenantNameEditText.text.toString())
-        outState.putString("tenant_phone", lastTenant?.phone ?: binding.phoneEditText.text.toString())
-        outState.putString("tenant_rent", lastTenant?.rent ?: binding.rentEditText.text.toString())
-        outState.putInt("save_count", saveCount)
-        Log.d("TENANT_LIFECYCLE", "MainActivity: onSaveInstanceState")
-    }
-
     override fun onStart() {
         super.onStart()
         Log.d("TENANT_LIFECYCLE", "MainActivity: onStart")

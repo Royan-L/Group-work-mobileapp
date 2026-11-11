@@ -1,5 +1,7 @@
 package com.example.mobileappassignment
 
+import com.example.mobileappassignment.data.model.Tenant
+import com.example.mobileappassignment.data.repository.TenantRepository
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.example.mobileappassignment
+package com.example.mobileappassignment.ui.auth
 
 import android.content.Intent
 import android.os.Bundle

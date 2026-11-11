@@ -1,4 +1,4 @@
-package com.example.mobileappassignment
+package com.example.mobileappassignment.data.model
 
 import java.io.Serializable
 

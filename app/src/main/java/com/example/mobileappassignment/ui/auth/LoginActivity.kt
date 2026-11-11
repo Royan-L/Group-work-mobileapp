@@ -1,4 +1,4 @@
-package com.example.mobileappassignment
+package com.example.mobileappassignment.ui.auth
 
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobileappassignment.databinding.ActivityLoginBinding
+import com.example.mobileappassignment.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 

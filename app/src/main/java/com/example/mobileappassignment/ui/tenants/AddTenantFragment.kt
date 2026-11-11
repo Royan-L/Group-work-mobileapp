@@ -1,4 +1,4 @@
-package com.example.mobileappassignment
+package com.example.mobileappassignment.ui.tenants
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mobileappassignment.R
+import com.example.mobileappassignment.data.model.Tenant
+import com.example.mobileappassignment.data.repository.TenantRepository
 import com.example.mobileappassignment.databinding.FragmentAddTenantBinding
 
 class AddTenantFragment : Fragment() {

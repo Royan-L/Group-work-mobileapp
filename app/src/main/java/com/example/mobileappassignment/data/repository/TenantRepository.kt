@@ -1,4 +1,6 @@
-package com.example.mobileappassignment
+package com.example.mobileappassignment.data.repository
+
+import com.example.mobileappassignment.data.model.Tenant
 
 object TenantRepository {
     val tenants = mutableListOf<Tenant>()

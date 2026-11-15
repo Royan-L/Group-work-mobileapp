@@ -1,15 +1,18 @@
 package com.example.mobileappassignment.data.repository
 
+import androidx.lifecycle.LiveData
+import com.example.mobileappassignment.data.local.TenantDao
 import com.example.mobileappassignment.data.model.Tenant
 
-object TenantRepository {
-    val tenants = mutableListOf<Tenant>()
+// THE SINGLE DOOR into the data layer. The ViewModel only talks to this
+// class, never to the DAO or the database directly
+class TenantRepository(private val tenantDao: TenantDao) {
 
-    fun addTenant(tenant: Tenant) {
-        tenants.add(tenant)
-    }
+    // All tenants, kept up to date by Room
+    val tenants: LiveData<List<Tenant>> = tenantDao.getAllTenants()
 
-    fun totalRent(): Double {
-        return tenants.sumOf { it.rent.toDoubleOrNull() ?: 0.0 }
+    // suspend: must be called from a coroutine
+    suspend fun addTenant(tenant: Tenant) {
+        tenantDao.insertTenant(tenant)
     }
 }

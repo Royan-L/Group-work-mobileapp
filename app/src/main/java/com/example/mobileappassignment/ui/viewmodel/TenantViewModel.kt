@@ -1,56 +1,58 @@
 package com.example.mobileappassignment.ui.viewmodel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.example.mobileappassignment.data.local.TenantDatabase
 import com.example.mobileappassignment.data.model.Tenant
 import com.example.mobileappassignment.data.repository.TenantRepository
+import kotlinx.coroutines.launch
 
-/**
- * TenantViewModel manages tenant UI state and business logic for the app.
- * It serves as a bridge between the data layer (TenantRepository) and the UI layer (Fragments).
- * 
- * NOTE: This ViewModel contains NO Android View, Toast, or Binding references,
- * keeping it strictly decoupled from the UI framework and testable.
- */
-class TenantViewModel : ViewModel() {
+// AndroidViewModel: a ViewModel that receives the Application (safe to keep)
+class TenantViewModel(application: Application) : AndroidViewModel(application) {
 
-    // Private backing MutableLiveData containing the current list of tenants from the repository
-    private val _tenants = MutableLiveData<List<Tenant>>(TenantRepository.tenants.toList())
+    // Build the data layer once: database -> DAO -> repository
+    private val repository =
+        TenantRepository(TenantDatabase.getDatabase(application).tenantDao())
 
-    // Public immutable LiveData exposing the tenant list to observers
-    val tenants: LiveData<List<Tenant>> = _tenants
+    // 1. THE DATA: Room's LiveData, updated whenever the table changes
+    val tenants: LiveData<List<Tenant>> = repository.tenants
 
-    // Transformation for formatted tenant count display (used by DashboardFragment)
-    val tenantCountText: LiveData<String> = _tenants.map { list ->
+    // 2. TRANSFORMATIONS (unchanged from Stage 2)
+    val tenantCountText: LiveData<String> = tenants.map { list ->
         "Tenants\n${list.size}"
     }
 
-    // Transformation for formatted total rent display (used by DashboardFragment)
-    val totalRentText: LiveData<String> = _tenants.map { list ->
-        val total = list.sumOf { tenant -> tenant.rent.toDoubleOrNull() ?: 0.0 }
+    val totalRentText: LiveData<String> = tenants.map { list ->
+        val total = list.sumOf { it.rent.toDoubleOrNull() ?: 0.0 }
         "Total rent\nKSh %,.0f".format(total)
     }
 
-    // Transformation for formatted all tenants summary display (used by ViewTenantsFragment)
-    val allTenantsText: LiveData<String> = _tenants.map { list ->
-        if (list.isEmpty()) {
-            "No tenants yet. Add one from the Dashboard."
-        } else {
-            list.joinToString("\n\n") { it.summary() }
+    val allTenantsText: LiveData<String> = tenants.map { list ->
+        if (list.isEmpty()) "No tenants yet. Add one from the Dashboard."
+        else list.joinToString("\n\n") { it.summary() }
+    }
+
+    // 3. ACTIONS
+    // The Fragment already builds the Tenant, so the ViewModel just saves it
+    fun addTenant(tenant: Tenant) {
+        // COROUTINE: save in the background so the screen never freezes.
+        // When the row is saved, Room updates "tenants" by itself
+        viewModelScope.launch {
+            repository.addTenant(tenant)
         }
     }
 
-    /**
-     * Adds a new tenant to the repository and updates the LiveData state.
-     * Log message records the action for lifecycle/debug tracking.
-     */
-    fun addTenant(tenant: Tenant) {
-        Log.d("TenantViewModel", "Adding tenant: ${tenant.name}")
-        TenantRepository.addTenant(tenant)
-        // Refresh LiveData with updated snapshot from repository
-        _tenants.value = TenantRepository.tenants.toList()
+    // 4. LIFECYCLE LOGS
+    init {
+        Log.d("TENANT_LIFECYCLE", "   TenantViewModel: created")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("TENANT_LIFECYCLE", "   TenantViewModel: onCleared")
     }
 }

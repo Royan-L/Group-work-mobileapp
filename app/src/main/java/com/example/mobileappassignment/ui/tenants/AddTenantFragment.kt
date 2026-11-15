@@ -7,16 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mobileappassignment.R
 import com.example.mobileappassignment.data.model.Tenant
-import com.example.mobileappassignment.data.repository.TenantRepository
 import com.example.mobileappassignment.databinding.FragmentAddTenantBinding
+import com.example.mobileappassignment.ui.viewmodel.TenantViewModel
 
 class AddTenantFragment : Fragment() {
 
     private var _binding: FragmentAddTenantBinding? = null
     private val binding get() = _binding!!
+
+    // The SHARED ViewModel: every Fragment in MainActivity gets the SAME one
+    private val viewModel: TenantViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +42,22 @@ class AddTenantFragment : Fragment() {
         Log.d("TENANT_LIFECYCLE", "   AddTenantFragment: onViewCreated")
 
         binding.saveButton.setOnClickListener {
+            // UI JOB: collect the input
             val name = binding.tenantNameEditText.text.toString().trim()
             val phone = binding.phoneEditText.text.toString().trim()
             val rent = binding.rentEditText.text.toString().trim()
 
+            // UI JOB: tell the user if a field is empty
             if (name.isEmpty() || phone.isEmpty() || rent.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // Hand the tenant to the ViewModel to save (no direct repository access)
             val tenant = Tenant(name, phone, rent)
-            TenantRepository.addTenant(tenant)
+            viewModel.addTenant(tenant)
 
+            // UI JOB: navigate (unchanged)
             val bundle = Bundle().apply {
                 putSerializable("newTenant", tenant)
             }

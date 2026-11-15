@@ -20,9 +20,9 @@ Screens -> TenantViewModel (LiveData) -> TenantRepository -> Room
 ## Team
 | Stage | Member | Admission No. | Pull request |
 |---|---|---|---|
-| 1 Lead | Royan L | — | [PR Link](https://github.com/Royan-L/Group-work-mobileapp/pulls) |
-| 2 ViewModel | Team Member 2 | — | [PR Link](https://github.com/Royan-L/Group-work-mobileapp/pulls) |
-| 3 Room | Team Member 3 | — | [PR Link](https://github.com/Royan-L/Group-work-mobileapp/pulls) |
-| 4 Screens | Team Member 4 | — | [PR Link](https://github.com/Royan-L/Group-work-mobileapp/pulls) |
-| 5 Data integration | Team Member 5 | — | [PR Link](https://github.com/Royan-L/Group-work-mobileapp/pulls) |
-| 6 Release | Royan L | — | [PR Link](https://github.com/Royan-L/Group-work-mobileapp/pulls) |
+| 1 Lead | Royan Lumbasi | 174232 | [link](https://github.com/Royan-L/Group-work-mobileapp/commits/main) |
+| 2 ViewModel | Jackson Mosera | 189575 | [link](https://github.com/Royan-L/Group-work-mobileapp/pull/1) |
+| 3 Room | Kelsey Ayuya | 189938 | [link](https://github.com/Royan-L/Group-work-mobileapp/pull/2) |
+| 4 Screens | Beryl Orutwa | 192044 | [link](https://github.com/Royan-L/Group-work-mobileapp/pull/3) |
+| 5 Data integration | Sylvia Akinyi | 186650 | [link](https://github.com/Royan-L/Group-work-mobileapp/pull/4) |
+| 6 Release | Royan Lumbasi | 174232 | [link](https://github.com/Royan-L/Group-work-mobileapp/pull/5) |
